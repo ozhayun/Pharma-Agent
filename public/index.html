@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharma Agent | AI Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Background with animated particles -->
+  <div class="bg-overlay"></div>
+  
+  <!-- Main centered chat container -->
+  <div class="chat-wrapper">
+    <!-- Top header bar -->
+    <div class="top-header">
+      <div class="header-left">
+        <div class="logo-icon">💊</div>
+        <h1>Pharma<span class="accent">Agent</span></h1>
+      </div>
+      <div class="header-right">
+        <div class="status-indicator online">
+          <span class="dot"></span> Online
+        </div>
+        <div class="context-info" id="contextInfo">
+        </div>
+      </div>
+      </div>
+
+    <!-- Main chat area -->
+      <div class="chat-container" id="chatContainer">
+      </div>
+
+    <!-- Input area -->
+      <div class="input-area">
+        <div class="suggestions-scroll" id="suggestionsContainer">
+          <div class="suggestions-bubbles" id="suggestionsBubbles">
+            <!-- Bubbles injected by JS -->
+          </div>
+        </div>
+        
+        <div class="input-wrapper">
+        <textarea 
+            id="messageInput" 
+            placeholder="Type your question..."
+            autocomplete="off"
+            dir="auto"
+          rows="1"
+        ></textarea>
+          <button id="sendButton">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+  </div>
+
+  <!-- Floating context panel (hidden by default, can be toggled) -->
+  <div class="context-panel-toggle" id="contextToggle">⚙</div>
+  <aside class="context-panel" id="contextPanel">
+    <div class="context-header">
+      <h3>ACTIVE CONTEXT</h3>
+      <button class="close-context" id="closeContext">×</button>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="context-tabs">
+      <button class="context-tab active" data-tab="info" id="tabInfo">Info</button>
+      <button class="context-tab" data-tab="history" id="tabHistory">History</button>
+    </div>
+    
+    <!-- Info Tab -->
+    <div class="context-tab-content active" id="tabContentInfo">
+    <div class="context-item empty" id="ctx-medication">
+      <span class="ctx-label">MEDICATION</span>
+      <span class="ctx-value">--</span>
+    </div>
+    <div class="context-item empty" id="ctx-flow">
+      <span class="ctx-label">ACTIVE FLOW</span>
+      <span class="ctx-value">--</span>
+    </div>
+    <div class="context-item empty" id="ctx-step">
+      <span class="ctx-label">ACTIVE STEP</span>
+      <span class="ctx-value">--</span>
+    </div>
+    <div class="context-item empty" id="ctx-lang">
+      <span class="ctx-label">LANGUAGE</span>
+      <span class="ctx-value">--</span>
+    </div>
+    </div>
+    
+    <!-- History Tab -->
+    <div class="context-tab-content" id="tabContentHistory">
+    <div class="context-item empty" id="ctx-tool-history">
+      <span class="ctx-label">TOOL HISTORY</span>
+      <div class="tool-history-container" id="toolHistoryContainer">
+        <div class="tool-history-empty">No tools used yet</div>
+        </div>
+      </div>
+      <div class="context-item empty" id="ctx-medication-history">
+        <span class="ctx-label">MEDICATION HISTORY</span>
+        <div class="tool-history-container" id="medicationHistoryContainer">
+          <div class="tool-history-empty">No medications yet</div>
+        </div>
+      </div>
+      <div class="context-item empty" id="ctx-flow-history">
+        <span class="ctx-label">FLOW HISTORY</span>
+        <div class="tool-history-container" id="flowHistoryContainer">
+          <div class="tool-history-empty">No flows yet</div>
+        </div>
+      </div>
+      <div class="context-item empty" id="ctx-step-history">
+        <span class="ctx-label">STEP HISTORY</span>
+        <div class="tool-history-container" id="stepHistoryContainer">
+          <div class="tool-history-empty">No steps yet</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Disclaimer Footer -->
+  <footer class="disclaimer-footer">
+    <p>PharmaAgent does not provide medical advice or diagnosis.</p>
+  </footer>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
