@@ -20,6 +20,7 @@ Node.js 20+, TypeScript, Fastify, In-memory synthetic data
    OPENAI_MODEL=gpt-5
    OPENAI_SMALL_MODEL=gpt-4o
    PORT=3000
+   IS_DEBUG=false  # Optional: set to 'true' for debug logging
    ```
 2. Install: `npm install`
 3. Run: `npm run dev` (or `npm run build && npm start` for production)
@@ -67,3 +68,9 @@ docker run -p 3000:3000 -e OPENAI_API_KEY=your-api-key-here pharma-agent
 
 See [TOOLS.md](./TOOLS.md) and [FLOWS.md](./FLOWS.md) for details.
 
+## Debug
+
+**Debug Logging:** Set `IS_DEBUG=true` in `.env` to enable colored (cyan) system logs showing flow transitions, context, and tool execution.
+
+**Model Selection:** GPT-4o (`OPENAI_SMALL_MODEL`) chosen for fast, low-latency intent parsing. 
+GPT-5 (`OPENAI_MODEL`) used for high-quality response generation with advanced reasoning.
