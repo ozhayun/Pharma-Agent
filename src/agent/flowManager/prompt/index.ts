@@ -20,6 +20,18 @@ import {
   buildMedicationInfoContext,
 } from './flowPrompts';
 
+/**
+ * Generates context-aware system prompt based on current flow state
+ * 
+ * ## Builds:
+ * - Basic context (current step, medication, requestedInfoType)
+ * - Flow-specific context (inventory, prescription, medication info)
+ * - Safety rules and constraints
+ * 
+ * ## Result:
+ * - `SYSTEM_PROMPT` + dynamic context
+ * - Used as first message in LLM conversation
+ */
 export function generateFlowAwarePrompt(flowState: FlowState, userMessage?: string): string {
   const promptStartTime = Date.now();
   const activeFlowType = flowState._activeFlowType!;

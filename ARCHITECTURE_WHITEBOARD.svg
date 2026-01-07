@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1400" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="routeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#50C878;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3FA068;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="agentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E55555;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="llmGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F39C12;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E67E22;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="toolGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1ABC9C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16A085;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="30" font-size="28" font-weight="bold" text-anchor="middle" fill="#2C3E50">60-Second Architecture Overview</text>
+  
+  <!-- CLIENT -->
+  <rect x="450" y="60" width="300" height="80" rx="10" fill="url(#clientGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="95" font-size="18" font-weight="bold" text-anchor="middle" fill="white">CLIENT</text>
+  <text x="600" y="120" font-size="14" text-anchor="middle" fill="white">POST /chat</text>
+  <text x="600" y="140" font-size="12" text-anchor="middle" fill="white">{message, flowState}</text>
+  
+  <!-- ROUTE -->
+  <rect x="450" y="180" width="300" height="80" rx="10" fill="url(#routeGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="215" font-size="18" font-weight="bold" text-anchor="middle" fill="white">ROUTE</text>
+  <text x="600" y="240" font-size="14" text-anchor="middle" fill="white">SSE headers</text>
+  <text x="600" y="260" font-size="12" text-anchor="middle" fill="white">validate request</text>
+  
+  <!-- AGENT -->
+  <rect x="400" y="300" width="400" height="120" rx="10" fill="url(#agentGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="335" font-size="18" font-weight="bold" text-anchor="middle" fill="white">AGENT</text>
+  <text x="600" y="360" font-size="14" text-anchor="middle" fill="white">updateFlowStateFromMessage()</text>
+  
+  <!-- Intent Parser Branch -->
+  <rect x="50" y="460" width="280" height="100" rx="8" fill="#E8F4F8" stroke="#2C3E50" stroke-width="2"/>
+  <text x="190" y="490" font-size="14" font-weight="bold" text-anchor="middle" fill="#2C3E50">Intent Parser</text>
+  <text x="190" y="515" font-size="12" text-anchor="middle" fill="#2C3E50">LLM (gpt-4o)</text>
+  <text x="190" y="540" font-size="12" text-anchor="middle" fill="#2C3E50">ParsedUserIntent</text>
+  
+  <!-- Flow Manager Branch -->
+  <rect x="870" y="460" width="280" height="100" rx="8" fill="#E8F4F8" stroke="#2C3E50" stroke-width="2"/>
+  <text x="1010" y="490" font-size="14" font-weight="bold" text-anchor="middle" fill="#2C3E50">Flow Manager</text>
+  <text x="1010" y="515" font-size="12" text-anchor="middle" fill="#2C3E50">update slots</text>
+  <text x="1010" y="540" font-size="12" text-anchor="middle" fill="#2C3E50">transitions</text>
+  
+  <!-- PROMPT GENERATOR -->
+  <rect x="450" y="600" width="300" height="80" rx="10" fill="#D5E8D4" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="635" font-size="18" font-weight="bold" text-anchor="middle" fill="#2C3E50">PROMPT GENERATOR</text>
+  <text x="600" y="660" font-size="14" text-anchor="middle" fill="#2C3E50">SYSTEM_PROMPT</text>
+  <text x="600" y="680" font-size="12" text-anchor="middle" fill="#2C3E50">+ flow context</text>
+  
+  <!-- TOOL CHOICE -->
+  <rect x="450" y="720" width="300" height="80" rx="10" fill="#FFF3CD" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="755" font-size="18" font-weight="bold" text-anchor="middle" fill="#856404">TOOL CHOICE</text>
+  <text x="600" y="780" font-size="14" text-anchor="middle" fill="#856404">determineToolChoice()</text>
+  <text x="600" y="800" font-size="12" text-anchor="middle" fill="#856404">expectingToolCall?</text>
+  
+  <!-- Decision Diamond -->
+  <polygon points="600,840 700,880 600,920 500,880" fill="#F39C12" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="880" font-size="14" font-weight="bold" text-anchor="middle" fill="white">?</text>
+  
+  <!-- YES Branch - Non-Stream Handler -->
+  <rect x="50" y="960" width="500" height="140" rx="10" fill="url(#llmGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="300" y="995" font-size="16" font-weight="bold" text-anchor="middle" fill="white">YES → Non-Stream Handler</text>
+  <text x="300" y="1020" font-size="14" text-anchor="middle" fill="white">LLM (gpt-4o)</text>
+  <text x="300" y="1045" font-size="12" text-anchor="middle" fill="white">tool calls</text>
+  <text x="300" y="1065" font-size="12" text-anchor="middle" fill="white">execute</text>
+  <text x="300" y="1085" font-size="12" text-anchor="middle" fill="white">update state</text>
+  
+  <!-- NO Branch - Stream Handler -->
+  <rect x="650" y="960" width="500" height="140" rx="10" fill="url(#llmGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="900" y="995" font-size="16" font-weight="bold" text-anchor="middle" fill="white">NO → Stream Handler</text>
+  <text x="900" y="1020" font-size="14" text-anchor="middle" fill="white">LLM (gpt-5)</text>
+  <text x="900" y="1045" font-size="12" text-anchor="middle" fill="white">stream tokens</text>
+  
+  <!-- RESPONSE HANDLER -->
+  <rect x="450" y="1140" width="300" height="80" rx="10" fill="#D1ECF1" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="1175" font-size="18" font-weight="bold" text-anchor="middle" fill="#0C5460">RESPONSE HANDLER</text>
+  <text x="600" y="1200" font-size="14" text-anchor="middle" fill="#0C5460">parse JSON</text>
+  <text x="600" y="1220" font-size="12" text-anchor="middle" fill="#0C5460">update lastPresentedText</text>
+  
+  <!-- SSE STREAM -->
+  <rect x="450" y="1260" width="300" height="80" rx="10" fill="url(#routeGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="1295" font-size="18" font-weight="bold" text-anchor="middle" fill="white">SSE STREAM</text>
+  <text x="600" y="1320" font-size="14" text-anchor="middle" fill="white">data: {content, done,</text>
+  <text x="600" y="1340" font-size="12" text-anchor="middle" fill="white">context: flowState}</text>
+  
+  <!-- CLIENT (Final) -->
+  <rect x="450" y="1380" width="300" height="80" rx="10" fill="url(#clientGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="1415" font-size="18" font-weight="bold" text-anchor="middle" fill="white">CLIENT</text>
+  <text x="600" y="1440" font-size="14" text-anchor="middle" fill="white">persist flowState</text>
+  <text x="600" y="1460" font-size="12" text-anchor="middle" fill="white">display response</text>
+  
+  <!-- ARROWS -->
+  <!-- Client to Route -->
+  <line x1="600" y1="140" x2="600" y2="180" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Route to Agent -->
+  <line x1="600" y1="260" x2="600" y2="300" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Agent to Intent Parser -->
+  <line x1="500" y1="360" x2="190" y2="460" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="320" y="400" font-size="11" fill="#333">├─→</text>
+  
+  <!-- Agent to Flow Manager -->
+  <line x1="700" y1="360" x2="1010" y2="460" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="850" y="400" font-size="11" fill="#333">└─→</text>
+  
+  <!-- Intent Parser back to Agent -->
+  <line x1="190" y1="560" x2="500" y2="420" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Flow Manager back to Agent -->
+  <line x1="1010" y1="560" x2="700" y2="420" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Agent to Prompt Generator -->
+  <line x1="600" y1="420" x2="600" y2="600" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Prompt Generator to Tool Choice -->
+  <line x1="600" y1="680" x2="600" y2="720" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Tool Choice to Decision -->
+  <line x1="600" y1="800" x2="600" y2="840" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Decision to YES Branch -->
+  <line x1="550" y1="880" x2="300" y2="960" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="400" y="920" font-size="12" font-weight="bold" fill="#333">YES</text>
+  
+  <!-- Decision to NO Branch -->
+  <line x1="650" y1="880" x2="900" y2="960" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="750" y="920" font-size="12" font-weight="bold" fill="#333">NO</text>
+  
+  <!-- YES Branch to Response Handler -->
+  <line x1="300" y1="1100" x2="500" y2="1140" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- NO Branch to Response Handler -->
+  <line x1="900" y1="1100" x2="700" y2="1140" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Response Handler to SSE Stream -->
+  <line x1="600" y1="1220" x2="600" y2="1260" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- SSE Stream to Client -->
+  <line x1="600" y1="1340" x2="600" y2="1380" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Key Points Box -->
+  <rect x="50" y="1480" width="1100" height="200" rx="10" fill="#F8F9FA" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="1510" font-size="18" font-weight="bold" text-anchor="middle" fill="#2C3E50">Key Points</text>
+  
+  <text x="80" y="1540" font-size="12" fill="#2C3E50">• Stateless: flowState passed client ↔ server, no server-side storage</text>
+  <text x="80" y="1565" font-size="12" fill="#2C3E50">• Deterministic flows: Code controls step transitions, not LLM</text>
+  <text x="80" y="1590" font-size="12" fill="#2C3E50">• Dual-model strategy: gpt-4o (tools/intent), gpt-5 (responses)</text>
+  <text x="80" y="1615" font-size="12" fill="#2C3E50">• Tool validation: Code enforces which tools allowed based on flow step</text>
+  <text x="80" y="1640" font-size="12" fill="#2C3E50">• SSE streaming: Real-time response chunks, final state returned in context</text>
+  <text x="80" y="1665" font-size="12" fill="#2C3E50">• Iteration loop: Max 5 iterations, max 3 tool calls per request</text>
+</svg>
+

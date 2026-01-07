@@ -9,6 +9,19 @@ import OpenAI from 'openai';
 import { openai } from './client';
 import { supportsReasoning } from '../../utils/utils';
 
+/**
+ * Formats and streams final assistant response
+ * 
+ * ## Process:
+ * 1. Parses JSON response (extracts `response` and `options`)
+ * 2. Updates `lastPresentedText` in flow state
+ * 3. Yields chunks word-by-word with 20ms delay (typing effect)
+ * 4. Yields final chunk with `done: true` and updated flowState
+ * 
+ * ## Used When:
+ * - Non-streaming handler returns message (no tool calls)
+ * - Final response ready to send to user
+ */
 export async function* handleAssistantResponse(
   assistantMessage: string,
   flowState: FlowState | undefined,

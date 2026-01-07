@@ -1,6 +1,20 @@
 import type { FlowState } from '../flows';
 import { FlowType as FlowTypeEnum, FLOW_DEFINITIONS, MedicationInfoStep, InventoryCheckStep, PrescriptionConfirmationStep } from '../flows';
 
+/**
+ * Determines which tools to allow and if tool call is expected
+ * 
+ * ## Decision Logic:
+ * - `COLLECT_MEDICATION_NAME` + medicationName exists → Force `getMedicationByName`
+ * - `PROVIDE_INFO` + requestedInfoType='stock' → Force `checkInventory`
+ * - `PROVIDE_INFO` + requestedInfoType='prescription' → Force `requiresPrescription`
+ * - Step has `getToolForStep()` → Force that tool
+ * - `PROVIDE_RESULT` steps → `allowTools=false` (no more tools needed)
+ * - Otherwise → `tool_choice: 'auto'`
+ * 
+ * ## Returns:
+ * - `expectingToolCall`: Routes to non-streaming (gpt-4o) vs streaming (gpt-5) handler
+ */
 export function determineToolChoice(flowState: FlowState | undefined): {
   toolChoice: 'auto' | 'required' | { type: 'function'; name: string } | null;
   allowTools: boolean;
@@ -41,12 +55,12 @@ export function determineToolChoice(flowState: FlowState | undefined): {
         }
       }
       else {
-      const forcedTool = flowDef.getToolForStep?.(activeFlow.step);
-      if (forcedTool) {
-        toolChoice = { type: 'function', name: forcedTool };
+        const forcedTool = flowDef.getToolForStep?.(activeFlow.step);
+        if (forcedTool) {
+          toolChoice = { type: 'function', name: forcedTool };
           expectingToolCall = true;
+        }
       }
-    }
   }
   
   if (activeFlowType === FlowTypeEnum.INVENTORY_CHECK && 

@@ -19,6 +19,23 @@ import { FlowType as FlowTypeEnum } from './flows';
 import { updateLastPresentedText } from './flowManager';
 import type { ToolCall } from './core/toolExecution';
 
+/**
+ * Main agent orchestrator - processes user messages and streams responses
+ * 
+ * ## Flow:
+ * 1. Updates flow state from message (intent parsing, flow switching, step transitions)
+ * 2. Generates context-aware prompt
+ * 3. Determines tool choice (expectingToolCall flag)
+ * 4. Routes to handler:
+ *    - `expectingToolCall=true` → Non-streaming (gpt-4o) for deterministic tool calls
+ *    - `expectingToolCall=false` → Streaming (gpt-5) for user responses
+ * 5. Iterates up to 5 times (max 3 tool calls per request)
+ * 
+ * ## Key Decisions:
+ * - Model selection: gpt-4o (tools) vs gpt-5 (responses)
+ * - Tool error handling: Cleans state, retries with error message
+ * - Max iterations: Falls back to error response if exceeded
+ */
 export async function* processMessageStream(
   request: ChatRequest,
   _context?: AgentContext

@@ -84,6 +84,24 @@ function getMedicationInfoInitialStep(
   return MedicationInfoStep.COLLECT_MEDICATION_NAME;
 }
       
+/**
+ * Switches from one flow to another while preserving context
+ * 
+ * ## Preserves:
+ * - Shared slots (medicationName, medicationId, medicationData) if same medication
+ * - Pending intent/info type
+ * 
+ * ## Clears:
+ * - Shared slots if new medication (need fresh tool calls)
+ * 
+ * ## Initial Step Selection:
+ * - Calls flow-specific initial step function (e.g., `getInventoryCheckInitialStep`)
+ * - Skips steps when data already available (e.g., has medicationId → skip COLLECT_MEDICATION_NAME)
+ * 
+ * ## Example:
+ * - User in MEDICATION_INFO → says "check stock" → switches to INVENTORY_CHECK
+ * - If same medication: Preserves medicationId, starts at CHECK_INVENTORY step
+ */
 export function handleFlowSwitch(
   state: FlowState,
   targetFlowType: FlowType,

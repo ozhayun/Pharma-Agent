@@ -1,5 +1,15 @@
 import type { FlowState, ParsedUserIntent } from '../../flows';
 
+/**
+ * Updates flow slots from parsed intent
+ * 
+ * ## Updates:
+ * - `requestedInfoType`: From parsed intent or shared slots
+ * - `medicationName`: If different from current, updates slot
+ * 
+ * ## Priority:
+ * - Parsed intent > Shared slots > Current slots
+ */
 export function updateSlotsFromIntent(
   currentSlots: Partial<Record<string, unknown>>,
   state: FlowState,

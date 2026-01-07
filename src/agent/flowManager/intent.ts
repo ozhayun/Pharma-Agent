@@ -15,6 +15,22 @@ function getOpenAIClient(): OpenAI {
   });
 }
 
+/**
+ * Parses user intent using LLM (gpt-4o) - FIRST LLM CALL
+ * 
+ * ## Returns:
+ * - `intent`: check_stock | request_medication_info | check_prescription | confirm_yes | unknown
+ * - `requestedInfoType`: stock | dosage | active_ingredients | prescription | null
+ * - `extractedMedicationName`: Medication name if mentioned
+ * - `language`: 'en' | 'he' (detected from message)
+ * 
+ * ## Fallbacks:
+ * - No LLM response → `{intent: 'unknown', language: detectedLang}`
+ * - LLM error → `{intent: 'unknown', language: detectedLang}`
+ * 
+ * ## Context:
+ * - Includes current step, medication context, and last assistant message
+ */
 export async function parseUserIntent(
   userMessage: string,
   flowState: FlowState

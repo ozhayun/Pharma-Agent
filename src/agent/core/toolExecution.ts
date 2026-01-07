@@ -12,6 +12,23 @@ export interface ToolCall {
   };
 }
 
+/**
+ * Validates and executes a tool call
+ * 
+ * ## Validation:
+ * - Tool name matches expected tool for current step
+ * - Medication name matches context (if applicable)
+ * - Tool not already called (duplicate check)
+ * - Max tool calls not exceeded (max 3 per request)
+ * 
+ * ## Updates State:
+ * - Calls `updateFlowStateAfterTool()` - stores tool results in state
+ * - Calls `addToolToHistory()` - tracks tool usage for debugging
+ * 
+ * ## Returns:
+ * - `success`: Tool execution result
+ * - `updatedFlowState`: State with tool results stored
+ */
 export async function executeToolCall(
   toolCall: ToolCall,
   flowState: FlowState | undefined,

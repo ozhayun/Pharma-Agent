@@ -1,0 +1,301 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 2000" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="routeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#50C878;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3FA068;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="agentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E55555;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="flowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#9B59B6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8E44AD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="llmGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F39C12;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E67E22;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="toolGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1ABC9C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16A085;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="700" y="30" font-size="24" font-weight="bold" text-anchor="middle" fill="#2C3E50">Pharma Agent - Input/Output Flow</text>
+  
+  <!-- CLIENT LAYER -->
+  <rect x="50" y="60" width="300" height="120" rx="10" fill="url(#clientGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="200" y="90" font-size="16" font-weight="bold" text-anchor="middle" fill="white">CLIENT</text>
+  <text x="200" y="115" font-size="12" text-anchor="middle" fill="white">POST /chat</text>
+  <text x="200" y="135" font-size="12" text-anchor="middle" fill="white">{message, context}</text>
+  <text x="200" y="155" font-size="12" text-anchor="middle" fill="white">SSE Stream Response</text>
+  
+  <!-- ROUTE LAYER -->
+  <rect x="450" y="60" width="300" height="180" rx="10" fill="url(#routeGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="90" font-size="16" font-weight="bold" text-anchor="middle" fill="white">ROUTE HANDLER</text>
+  <text x="600" y="115" font-size="12" text-anchor="middle" fill="white">registerChatRoutes()</text>
+  <text x="600" y="140" font-size="11" text-anchor="middle" fill="white">• validateRequestContext()</text>
+  <text x="600" y="160" font-size="11" text-anchor="middle" fill="white">• Set SSE Headers</text>
+  <text x="600" y="180" font-size="11" text-anchor="middle" fill="white">• processMessageStream()</text>
+  <text x="600" y="200" font-size="11" text-anchor="middle" fill="white">• Stream chunks to client</text>
+  <text x="600" y="220" font-size="11" text-anchor="middle" fill="white">routes/chat.ts</text>
+  
+  <!-- AGENT CORE -->
+  <rect x="850" y="60" width="500" height="280" rx="10" fill="url(#agentGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="1100" y="90" font-size="16" font-weight="bold" text-anchor="middle" fill="white">AGENT CORE</text>
+  <text x="1100" y="115" font-size="12" text-anchor="middle" fill="white">processMessageStream()</text>
+  <text x="1100" y="140" font-size="11" text-anchor="middle" fill="white">agent/agent.ts</text>
+  
+  <!-- Flow State Update -->
+  <rect x="50" y="280" width="280" height="140" rx="8" fill="url(#flowGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="190" y="310" font-size="14" font-weight="bold" text-anchor="middle" fill="white">FLOW STATE</text>
+  <text x="190" y="335" font-size="12" text-anchor="middle" fill="white">updateFlowStateFromMessage()</text>
+  <text x="190" y="360" font-size="11" text-anchor="middle" fill="white">flowManager/state/</text>
+  <text x="190" y="380" font-size="11" text-anchor="middle" fill="white">• parseUserIntent()</text>
+  <text x="190" y="400" font-size="11" text-anchor="middle" fill="white">• updateSlotsFromIntent()</text>
+  
+  <!-- Intent Parser -->
+  <rect x="370" y="280" width="280" height="140" rx="8" fill="url(#flowGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="510" y="310" font-size="14" font-weight="bold" text-anchor="middle" fill="white">INTENT PARSER</text>
+  <text x="510" y="335" font-size="12" text-anchor="middle" fill="white">parseUserIntent()</text>
+  <text x="510" y="360" font-size="11" text-anchor="middle" fill="white">flowManager/intent.ts</text>
+  <text x="510" y="380" font-size="11" text-anchor="middle" fill="white">• LLM (gpt-4o) call</text>
+  <text x="510" y="400" font-size="11" text-anchor="middle" fill="white">• Returns ParsedUserIntent</text>
+  
+  <!-- Prompt Generator -->
+  <rect x="690" y="280" width="280" height="140" rx="8" fill="url(#flowGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="830" y="310" font-size="14" font-weight="bold" text-anchor="middle" fill="white">PROMPT GENERATOR</text>
+  <text x="830" y="335" font-size="12" text-anchor="middle" fill="white">generateFlowAwarePrompt()</text>
+  <text x="830" y="360" font-size="11" text-anchor="middle" fill="white">flowManager/prompt/</text>
+  <text x="830" y="380" font-size="11" text-anchor="middle" fill="white">• SYSTEM_PROMPT + context</text>
+  <text x="830" y="400" font-size="11" text-anchor="middle" fill="white">• Flow-aware instructions</text>
+  
+  <!-- Tool Choice -->
+  <rect x="1010" y="280" width="280" height="140" rx="8" fill="url(#flowGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="1150" y="310" font-size="14" font-weight="bold" text-anchor="middle" fill="white">TOOL CHOICE</text>
+  <text x="1150" y="335" font-size="12" text-anchor="middle" fill="white">determineToolChoice()</text>
+  <text x="1150" y="360" font-size="11" text-anchor="middle" fill="white">core/toolChoice.ts</text>
+  <text x="1150" y="380" font-size="11" text-anchor="middle" fill="white">• Checks flow step</text>
+  <text x="1150" y="400" font-size="11" text-anchor="middle" fill="white">• Returns toolChoice, allowTools</text>
+  
+  <!-- Message Builder -->
+  <rect x="50" y="460" width="280" height="100" rx="8" fill="#E8F4F8" stroke="#2C3E50" stroke-width="2"/>
+  <text x="190" y="490" font-size="12" font-weight="bold" text-anchor="middle" fill="#2C3E50">MESSAGE BUILDER</text>
+  <text x="190" y="515" font-size="11" text-anchor="middle" fill="#2C3E50">buildInitialMessages()</text>
+  <text x="190" y="535" font-size="11" text-anchor="middle" fill="#2C3E50">core/messageBuilder.ts</text>
+  <text x="190" y="555" font-size="11" text-anchor="middle" fill="#2C3E50">Prepares OpenAI messages</text>
+  
+  <!-- Decision Point -->
+  <polygon points="600,600 700,650 600,700 500,650" fill="#F39C12" stroke="#2C3E50" stroke-width="2"/>
+  <text x="600" y="640" font-size="14" font-weight="bold" text-anchor="middle" fill="white">expectingToolCall?</text>
+  
+  <!-- Non-Streaming Path -->
+  <rect x="50" y="750" width="500" height="200" rx="10" fill="url(#llmGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="300" y="780" font-size="16" font-weight="bold" text-anchor="middle" fill="white">NON-STREAMING HANDLER</text>
+  <text x="300" y="805" font-size="12" text-anchor="middle" fill="white">handleNonStreamingRequest()</text>
+  <text x="300" y="830" font-size="11" text-anchor="middle" fill="white">core/nonStreamHandler.ts</text>
+  <text x="300" y="855" font-size="11" text-anchor="middle" fill="white">• LLM call (gpt-4o) - no stream</text>
+  <text x="300" y="875" font-size="11" text-anchor="middle" fill="white">• Returns tool calls or message</text>
+  <text x="300" y="895" font-size="11" text-anchor="middle" fill="white">• Used when expectingToolCall=true</text>
+  <text x="300" y="915" font-size="11" text-anchor="middle" fill="white">• Fast, deterministic tool selection</text>
+  <text x="300" y="935" font-size="11" text-anchor="middle" fill="white">Max 3 tool calls per request</text>
+  
+  <!-- Streaming Path -->
+  <rect x="650" y="750" width="500" height="200" rx="10" fill="url(#llmGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="900" y="780" font-size="16" font-weight="bold" text-anchor="middle" fill="white">STREAMING HANDLER</text>
+  <text x="900" y="805" font-size="12" text-anchor="middle" fill="white">handleStreamingRequest()</text>
+  <text x="900" y="830" font-size="11" text-anchor="middle" fill="white">core/streamHandler.ts</text>
+  <text x="900" y="855" font-size="11" text-anchor="middle" fill="white">• LLM call (gpt-5) - stream: true</text>
+  <text x="900" y="875" font-size="11" text-anchor="middle" fill="white">• Yields chunks as they arrive</text>
+  <text x="900" y="895" font-size="11" text-anchor="middle" fill="white">• Used for user-facing responses</text>
+  <text x="900" y="915" font-size="11" text-anchor="middle" fill="white">• Can also return tool calls</text>
+  <text x="900" y="935" font-size="11" text-anchor="middle" fill="white">OpenAI Responses API</text>
+  
+  <!-- Tool Execution -->
+  <rect x="50" y="1000" width="500" height="200" rx="10" fill="url(#toolGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="300" y="1030" font-size="16" font-weight="bold" text-anchor="middle" fill="white">TOOL EXECUTION</text>
+  <text x="300" y="1055" font-size="12" text-anchor="middle" fill="white">executeToolCall()</text>
+  <text x="300" y="1080" font-size="11" text-anchor="middle" fill="white">core/toolExecution.ts</text>
+  <text x="300" y="1105" font-size="11" text-anchor="middle" fill="white">• validateToolCall() - checks validity</text>
+  <text x="300" y="1125" font-size="11" text-anchor="middle" fill="white">• executeTool() - runs tool function</text>
+  <text x="300" y="1145" font-size="11" text-anchor="middle" fill="white">• updateFlowStateAfterTool() - updates state</text>
+  <text x="300" y="1165" font-size="11" text-anchor="middle" fill="white">• addToolToHistory() - logs call</text>
+  <text x="300" y="1185" font-size="11" text-anchor="middle" fill="white">Returns: {success, toolResult, updatedFlowState}</text>
+  
+  <!-- Tools -->
+  <rect x="650" y="1000" width="500" height="200" rx="10" fill="#D5E8D4" stroke="#2C3E50" stroke-width="2"/>
+  <text x="900" y="1030" font-size="16" font-weight="bold" text-anchor="middle" fill="#2C3E50">TOOLS</text>
+  <text x="900" y="1055" font-size="12" text-anchor="middle" fill="#2C3E50">tools/</text>
+  <text x="750" y="1085" font-size="11" text-anchor="middle" fill="#2C3E50">getMedicationByName</text>
+  <text x="1050" y="1085" font-size="11" text-anchor="middle" fill="#2C3E50">checkInventory</text>
+  <text x="750" y="1110" font-size="11" text-anchor="middle" fill="#2C3E50">requiresPrescription</text>
+  <text x="1050" y="1110" font-size="11" text-anchor="middle" fill="#2C3E50">db/data.ts</text>
+  <text x="900" y="1140" font-size="11" text-anchor="middle" fill="#2C3E50">All tools return:</text>
+  <text x="900" y="1160" font-size="11" text-anchor="middle" fill="#2C3E50">{success: boolean, data?, error?}</text>
+  <text x="900" y="1180" font-size="11" text-anchor="middle" fill="#2C3E50">Synthetic in-memory database</text>
+  
+  <!-- Error Handling -->
+  <rect x="50" y="1250" width="280" height="120" rx="8" fill="#F8D7DA" stroke="#2C3E50" stroke-width="2"/>
+  <text x="190" y="1280" font-size="14" font-weight="bold" text-anchor="middle" fill="#721C24">ERROR HANDLING</text>
+  <text x="190" y="1305" font-size="12" text-anchor="middle" fill="#721C24">handleToolError()</text>
+  <text x="190" y="1325" font-size="11" text-anchor="middle" fill="#721C24">flowManager/errorHandling.ts</text>
+  <text x="190" y="1345" font-size="11" text-anchor="middle" fill="#721C24">• Cleans flowState on error</text>
+  <text x="190" y="1365" font-size="11" text-anchor="middle" fill="#721C24">• Injects error message</text>
+  
+  <rect x="370" y="1250" width="280" height="120" rx="8" fill="#F8D7DA" stroke="#2C3E50" stroke-width="2"/>
+  <text x="510" y="1280" font-size="14" font-weight="bold" text-anchor="middle" fill="#721C24">ERROR HANDLER</text>
+  <text x="510" y="1305" font-size="12" text-anchor="middle" fill="#721C24">handleError()</text>
+  <text x="510" y="1325" font-size="11" text-anchor="middle" fill="#721C24">core/errorHandler.ts</text>
+  <text x="510" y="1345" font-size="11" text-anchor="middle" fill="#721C24">• Catches exceptions</text>
+  <text x="510" y="1365" font-size="11" text-anchor="middle" fill="#721C24">• Returns error response</text>
+  
+  <!-- Response Handlers -->
+  <rect x="690" y="1250" width="280" height="200" rx="8" fill="#D1ECF1" stroke="#2C3E50" stroke-width="2"/>
+  <text x="830" y="1280" font-size="14" font-weight="bold" text-anchor="middle" fill="#0C5460">RESPONSE HANDLERS</text>
+  <text x="830" y="1305" font-size="12" text-anchor="middle" fill="#0C5460">core/responseHandler.ts</text>
+  <text x="830" y="1330" font-size="11" text-anchor="middle" fill="#0C5460">handleAssistantResponse()</text>
+  <text x="830" y="1350" font-size="11" text-anchor="middle" fill="#0C5460">• parseAgentResponse()</text>
+  <text x="830" y="1370" font-size="11" text-anchor="middle" fill="#0C5460">• updateLastPresentedText()</text>
+  <text x="830" y="1390" font-size="11" text-anchor="middle" fill="#0C5460">• Yields word-by-word chunks</text>
+  <text x="830" y="1410" font-size="11" text-anchor="middle" fill="#0C5460">• Final: {done: true, context}</text>
+  <text x="830" y="1430" font-size="11" text-anchor="middle" fill="#0C5460">handleFallbackResponse()</text>
+  
+  <!-- Iteration Loop -->
+  <rect x="1010" y="1250" width="280" height="120" rx="8" fill="#FFF3CD" stroke="#2C3E50" stroke-width="2"/>
+  <text x="1150" y="1280" font-size="14" font-weight="bold" text-anchor="middle" fill="#856404">ITERATION LOOP</text>
+  <text x="1150" y="1305" font-size="12" text-anchor="middle" fill="#856404">while (iteration &lt; 5)</text>
+  <text x="1150" y="1325" font-size="11" text-anchor="middle" fill="#856404">• Max 5 iterations</text>
+  <text x="1150" y="1345" font-size="11" text-anchor="middle" fill="#856404">• Max 3 tool calls/request</text>
+  <text x="1150" y="1365" font-size="11" text-anchor="middle" fill="#856404">• Continues until done</text>
+  
+  <!-- Output Path -->
+  <rect x="50" y="1500" width="1240" height="120" rx="10" fill="url(#routeGrad)" stroke="#2C3E50" stroke-width="2"/>
+  <text x="670" y="1530" font-size="16" font-weight="bold" text-anchor="middle" fill="white">OUTPUT STREAMING</text>
+  <text x="670" y="1555" font-size="12" text-anchor="middle" fill="white">SSE Stream to Client</text>
+  <text x="670" y="1580" font-size="11" text-anchor="middle" fill="white">Format: data: {content, done, context: {flowState}, options}\n\n</text>
+  <text x="670" y="1600" font-size="11" text-anchor="middle" fill="white">Client persists flowState for next request (stateless architecture)</text>
+  
+  <!-- ARROWS -->
+  <!-- Client to Route -->
+  <line x1="350" y1="120" x2="450" y2="150" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Route to Agent -->
+  <line x1="750" y1="150" x2="850" y2="200" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Agent to Flow State -->
+  <line x1="850" y1="220" x2="190" y2="280" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Flow State to Intent -->
+  <line x1="330" y1="350" x2="370" y2="350" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Intent back to Flow State -->
+  <line x1="370" y1="350" x2="330" y2="350" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Flow State to Prompt -->
+  <line x1="330" y1="350" x2="690" y2="350" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Prompt to Tool Choice -->
+  <line x1="970" y1="350" x2="1010" y2="350" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Tool Choice to Message Builder -->
+  <line x1="1150" y1="420" x2="190" y2="460" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Message Builder to Decision -->
+  <line x1="190" y1="560" x2="550" y2="600" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Decision to Non-Streaming -->
+  <line x1="550" y1="650" x2="300" y2="750" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="400" y="700" font-size="10" fill="#333">YES</text>
+  
+  <!-- Decision to Streaming -->
+  <line x1="650" y1="650" x2="900" y2="750" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="750" y="700" font-size="10" fill="#333">NO</text>
+  
+  <!-- Non-Streaming to Tool Execution -->
+  <line x1="300" y1="950" x2="300" y2="1000" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Streaming to Tool Execution (if tool calls) -->
+  <line x1="900" y1="950" x2="300" y2="1000" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Tool Execution to Tools -->
+  <line x1="550" y1="1100" x2="650" y2="1100" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Tools back to Tool Execution -->
+  <line x1="650" y1="1100" x2="550" y2="1100" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Tool Execution to Error Handling -->
+  <line x1="300" y1="1200" x2="190" y2="1250" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Tool Execution to Response Handler -->
+  <line x1="550" y1="1100" x2="830" y2="1250" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Response Handler to Output -->
+  <line x1="830" y1="1450" x2="670" y2="1500" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Streaming to Response Handler -->
+  <line x1="900" y1="950" x2="830" y2="1250" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Error Handler to Output -->
+  <line x1="510" y1="1370" x2="670" y2="1500" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Iteration Loop back to Agent -->
+  <line x1="1150" y1="1370" x2="1100" y2="340" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  <text x="1200" y="850" font-size="10" fill="#333">continue</text>
+  
+  <!-- Output back to Client -->
+  <line x1="670" y1="1620" x2="200" y2="180" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Legend -->
+  <rect x="50" y="1700" width="1300" height="280" rx="10" fill="#F8F9FA" stroke="#2C3E50" stroke-width="2"/>
+  <text x="700" y="1730" font-size="18" font-weight="bold" text-anchor="middle" fill="#2C3E50">Legend</text>
+  
+  <rect x="80" y="1750" width="20" height="20" fill="url(#clientGrad)"/>
+  <text x="110" y="1765" font-size="12" fill="#2C3E50">Client Layer</text>
+  
+  <rect x="280" y="1750" width="20" height="20" fill="url(#routeGrad)"/>
+  <text x="310" y="1765" font-size="12" fill="#2C3E50">Route/Output Layer</text>
+  
+  <rect x="480" y="1750" width="20" height="20" fill="url(#agentGrad)"/>
+  <text x="510" y="1765" font-size="12" fill="#2C3E50">Agent Core</text>
+  
+  <rect x="680" y="1750" width="20" height="20" fill="url(#flowGrad)"/>
+  <text x="710" y="1765" font-size="12" fill="#2C3E50">Flow Management</text>
+  
+  <rect x="880" y="1750" width="20" height="20" fill="url(#llmGrad)"/>
+  <text x="910" y="1765" font-size="12" fill="#2C3E50">LLM Handlers</text>
+  
+  <rect x="1080" y="1750" width="20" height="20" fill="url(#toolGrad)"/>
+  <text x="1110" y="1765" font-size="12" fill="#2C3E50">Tool Execution</text>
+  
+  <line x1="80" y1="1800" x2="120" y2="1800" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="140" y="1805" font-size="12" fill="#2C3E50">Main Flow</text>
+  
+  <line x1="280" y1="1800" x2="320" y2="1800" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  <text x="340" y="1805" font-size="12" fill="#2C3E50">Error/Alternative Path</text>
+  
+  <text x="80" y="1840" font-size="12" font-weight="bold" fill="#2C3E50">Key Functions:</text>
+  <text x="80" y="1860" font-size="11" fill="#2C3E50">• processMessageStream() - Main agent entry point, async generator</text>
+  <text x="80" y="1880" font-size="11" fill="#2C3E50">• updateFlowStateFromMessage() - Updates state, parses intent, manages flow transitions</text>
+  <text x="80" y="1900" font-size="11" fill="#2C3E50">• determineToolChoice() - Decides which tools to allow based on flow step</text>
+  <text x="80" y="1920" font-size="11" fill="#2C3E50">• handleStreamingRequest() / handleNonStreamingRequest() - LLM API calls</text>
+  <text x="80" y="1940" font-size="11" fill="#2C3E50">• executeToolCall() - Validates and executes tools, updates state</text>
+  <text x="80" y="1960" font-size="11" fill="#2C3E50">• handleAssistantResponse() - Formats and streams final response</text>
+  
+  <text x="700" y="1840" font-size="12" font-weight="bold" fill="#2C3E50">Data Flow:</text>
+  <text x="700" y="1860" font-size="11" fill="#2C3E50">Input: {message: string, context: {flowState?}}</text>
+  <text x="700" y="1880" font-size="11" fill="#2C3E50">Processing: Intent → Flow State → Tool Choice → LLM → Tools → Response</text>
+  <text x="700" y="1900" font-size="11" fill="#2C3E50">Output: SSE Stream {content, done, context: {flowState}, options}</text>
+  <text x="700" y="1920" font-size="11" fill="#2C3E50">Stateless: flowState passed client ↔ server, no server-side storage</text>
+  <text x="700" y="1940" font-size="11" fill="#2C3E50">Iteration: Max 5 iterations, max 3 tool calls per request</text>
+  <text x="700" y="1960" font-size="11" fill="#2C3E50">Models: gpt-4o (tools/intent), gpt-5 (responses)</text>
+</svg>
+

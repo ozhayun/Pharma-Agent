@@ -9,6 +9,19 @@ import { openai } from './client';
 import logger from '../../utils/logger';
 import type { StreamChunk } from './types';
 
+/**
+ * Handles streaming LLM requests (gpt-5) for user-facing responses
+ * 
+ * ## Process:
+ * 1. Streams text chunks as they arrive (yields immediately)
+ * 2. Collects tool calls from stream if any
+ * 3. After stream completes, executes tools if needed
+ * 4. Returns result with updated messages and flow state
+ * 
+ * ## Used When:
+ * - `expectingToolCall=false` (user responses, not tool calls)
+ * - Model: gpt-5 (quality responses, multilingual)
+ */
 export async function* handleStreamingRequest(
   messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[],
   flowState: FlowState | undefined,

@@ -7,6 +7,20 @@ import { supportsReasoning } from '../../utils/utils';
 import { openai } from './client';
 import logger from '../../utils/logger';
 
+/**
+ * Handles non-streaming LLM requests (gpt-4o) for deterministic tool calls
+ * 
+ * ## Process:
+ * 1. Makes non-streaming API call (waits for complete response)
+ * 2. Extracts tool calls from response
+ * 3. Executes tools sequentially
+ * 4. Returns result with updated messages and flow state
+ * 
+ * ## Used When:
+ * - `expectingToolCall=true` (code expects specific tool)
+ * - Model: gpt-4o (fast, deterministic, lower cost)
+ * - Temperature: 0.0 (deterministic output)
+ */
 export async function handleNonStreamingRequest(
   messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[],
   flowState: FlowState | undefined,

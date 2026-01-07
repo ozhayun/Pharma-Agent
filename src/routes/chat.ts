@@ -20,6 +20,20 @@ function validateRequestContext(payload: ChatRequestBody): { valid: boolean; war
   return { valid: true };
 }
 
+/**
+ * Registers POST /chat route handler
+ * 
+ * ## Process:
+ * 1. Validates message (non-empty string)
+ * 2. Validates flowState structure (logs warning if invalid, doesn't block)
+ * 3. Sets SSE headers (text/event-stream, no-cache, keep-alive)
+ * 4. Streams chunks from `processMessageStream()` as SSE events
+ * 5. Formats: `data: {content, done, context: flowState, options}\n\n`
+ * 
+ * ## Error Handling:
+ * - Request errors → Returns 400
+ * - Processing errors → Streams error message, closes connection
+ */
 export async function registerChatRoutes(fastify: FastifyInstance): Promise<void> {
   fastify.post<{ Body: ChatRequestBody }>(
     '/chat',
